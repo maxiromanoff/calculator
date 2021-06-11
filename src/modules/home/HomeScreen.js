@@ -1,13 +1,20 @@
-import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {View, StyleSheet, Switch} from 'react-native';
 import {Text, Keyboard} from '../../components';
-import {colors, fontSize} from '../../constants';
+import {fontSize} from '../../constants';
 import {scale} from '../../utils/resolutions';
 import {Layout} from '../../views';
+import {ThemeContext} from '../../context';
 
 const HomeScreen = () => {
   const [show, setShow] = useState('');
   const [result, setResult] = useState('');
+
+  const {
+    theme: {color, backgroundColor, bgColorKeyboard},
+    toggleTheme,
+    isDark,
+  } = useContext(ThemeContext);
 
   const onChange = value => {
     if (value === 'AC') {
@@ -21,7 +28,6 @@ const HomeScreen = () => {
       setShow(prev =>
         `${prev}${value}`.substring(0, `${prev}${value}`.length - 1),
       );
-
       /* eslint no-eval: 0 */
       setResult(eval(show));
     } else {
@@ -29,26 +35,38 @@ const HomeScreen = () => {
     }
   };
 
+  const handleTheme = () => {
+    toggleTheme();
+  };
+
   return (
-    <Layout style={styles.layout}>
+    <Layout style={styles.layout} bgColor={backgroundColor}>
       <View style={styles.mainContainer}>
-        <View />
+        <View style={styles.switchContainer}>
+          <Switch
+            trackColor={{false: '#767577', true: '#81b0ff'}}
+            thumbColor={isDark ? '#f5dd4b' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onChange={handleTheme}
+            value={isDark}
+          />
+        </View>
         <View style={styles.resultCalculator}>
           <View>
             {show ? (
               <View>
-                <Text style={styles.showCalculator}>{show}</Text>
+                <Text style={[styles.showCalculator, {color}]}>{show}</Text>
               </View>
             ) : (
               <View>
-                <Text style={styles.showCalculator}>0</Text>
+                <Text style={[styles.showCalculator, {color}]}>0</Text>
               </View>
             )}
           </View>
           <View>
             {result ? (
               <View>
-                <Text style={styles.showResult}>{result}</Text>
+                <Text style={[styles.showResult, {color}]}>{result}</Text>
               </View>
             ) : (
               <View />
@@ -56,7 +74,8 @@ const HomeScreen = () => {
           </View>
         </View>
       </View>
-      <View style={styles.keyboardContainer}>
+      <View
+        style={[styles.keyboardContainer, {backgroundColor: bgColorKeyboard}]}>
         <Keyboard onChange={onChange} />
       </View>
     </Layout>
@@ -71,6 +90,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
+  switchContainer: {
+    paddingHorizontal: scale(15),
+    marginTop: scale(15),
+  },
   resultCalculator: {
     alignSelf: 'flex-end',
     paddingHorizontal: scale(15),
@@ -83,7 +106,6 @@ const styles = StyleSheet.create({
     fontSize: fontSize.bigger,
   },
   keyboardContainer: {
-    backgroundColor: colors.system_white_1,
     paddingTop: scale(40),
     borderTopLeftRadius: scale(50),
     borderTopRightRadius: scale(50),

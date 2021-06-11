@@ -6,4 +6,6 @@ export default {
 
   system_white_1: '#F7F7F7',
   system_white_2: '#f4f4f4',
+
+  system_dark_1: '#2d313c',
 };
