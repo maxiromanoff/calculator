@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 
 // routes
 import routes from './routes';
@@ -11,7 +11,12 @@ const Stack = createStackNavigator();
 
 const AppContainer = () => {
   return (
-    <Stack.Navigator headerMode="none" initialRouteName={routes.HomeScreen}>
+    <Stack.Navigator
+      headerMode="none"
+      initialRouteName={routes.HomeScreen}
+      screenOptions={{
+        ...TransitionPresets.SlideFromRightIOS,
+      }}>
       <Stack.Screen name={routes.HomeScreen} component={HomeScreen} />
       <Stack.Screen name={routes.SettingScreen} component={SettingScreen} />
       <Stack.Screen name={routes.HistoryScreen} component={HistoryScreen} />
