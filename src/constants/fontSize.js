@@ -16,6 +16,8 @@ export const fontSize14 = RFValue(14, STANDARD_SCREEN_HEIGHT);
 
 export const normal = RFValue(15, STANDARD_SCREEN_HEIGHT);
 
+export const fontSize16 = RFValue(16, STANDARD_SCREEN_HEIGHT);
+
 export const large = RFValue(18, STANDARD_SCREEN_HEIGHT);
 
 export const larger = RFValue(20, STANDARD_SCREEN_HEIGHT);

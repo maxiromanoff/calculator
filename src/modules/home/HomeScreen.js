@@ -1,77 +1,66 @@
 import React, {useState, useContext} from 'react';
-import {View, StyleSheet, Switch} from 'react-native';
-import {Text, Keyboard} from '../../components';
+import {View, StyleSheet} from 'react-native';
+import {Text, Keyboard, Button} from '../../components';
 import {fontSize} from '../../constants';
 import {scale} from '../../utils/resolutions';
 import {Layout} from '../../views';
 import {ThemeContext} from '../../context';
+import Feather from 'react-native-vector-icons/Feather';
+import routes from '../routes';
+import {Calculator} from '../../database';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [show, setShow] = useState('');
   const [result, setResult] = useState('');
 
+  const gotoMenu = () => {
+    navigation.navigate(routes.SettingScreen);
+  };
+
   const {
     theme: {color, backgroundColor, bgColorKeyboard},
-    toggleTheme,
-    isDark,
   } = useContext(ThemeContext);
 
   const onChange = value => {
+    if (show.substr(show.length - 1) === '=') {
+      setShow(result);
+      setResult('');
+    }
     if (value === 'AC') {
       setShow('');
       setResult('');
     } else if (value === 'delete') {
       setShow(prev => `${prev}`.substring(0, prev.length - 1));
     } else if (value === 'percent') {
-      setShow(prev => parseInt(`${prev}`, 10) * 0.01);
+      setShow(prev => `${parseInt(prev, 10) * 0.01}`);
     } else if (value === '=') {
-      setShow(prev =>
-        `${prev}${value}`.substring(0, `${prev}${value}`.length - 1),
-      );
+      setShow(prev => `${prev}${value}`);
       /* eslint no-eval: 0 */
       setResult(eval(show));
+      Calculator.insert({
+        show: show.replace('=', ''),
+        result: eval(show),
+        created_at: new Date(),
+      });
     } else {
       setShow(prev => `${prev}${value}`);
     }
   };
 
-  const handleTheme = () => {
-    toggleTheme();
-  };
-
   return (
     <Layout style={styles.layout} bgColor={backgroundColor}>
       <View style={styles.mainContainer}>
-        <View style={styles.switchContainer}>
-          <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            thumbColor={isDark ? '#f5dd4b' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onChange={handleTheme}
-            value={isDark}
-          />
-        </View>
+        <Button style={styles.menuContainer} onPress={gotoMenu}>
+          <Feather name="menu" size={25} color={color} />
+        </Button>
         <View style={styles.resultCalculator}>
-          <View>
-            {show ? (
-              <View>
-                <Text style={[styles.showCalculator, {color}]}>{show}</Text>
-              </View>
-            ) : (
-              <View>
-                <Text style={[styles.showCalculator, {color}]}>0</Text>
-              </View>
-            )}
-          </View>
-          <View>
-            {result ? (
-              <View>
-                <Text style={[styles.showResult, {color}]}>{result}</Text>
-              </View>
-            ) : (
-              <View />
-            )}
-          </View>
+          <Text style={[styles.showCalculator, {color}]}>
+            {String(show).replace('=', '') || 0}
+          </Text>
+
+          {result ? (
+            <Text style={[styles.showResult, {color}]}>{result}</Text>
+          ) : null}
         </View>
       </View>
       <View
@@ -90,20 +79,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  switchContainer: {
+  menuContainer: {
     paddingHorizontal: scale(15),
-    marginTop: scale(15),
+    marginTop: scale(10),
+    alignSelf: 'flex-end',
   },
   resultCalculator: {
-    alignSelf: 'flex-end',
     paddingHorizontal: scale(15),
     marginBottom: scale(20),
   },
   showCalculator: {
+    textAlign: 'right',
     fontSize: fontSize.big,
   },
   showResult: {
     fontSize: fontSize.bigger,
+    textAlign: 'right',
   },
   keyboardContainer: {
     paddingTop: scale(40),
