@@ -42,7 +42,7 @@ const HistoryScreen = ({navigation}) => {
           {item.show}={item.result}
         </Text>
         <Text style={[{color}]}>
-          {moment(item.create_at).format('YYYY/MM/DD hh:mm a')}
+          {moment(item.created_at).format('YYYY/MM/DD hh:mm a')}
         </Text>
       </View>
     );

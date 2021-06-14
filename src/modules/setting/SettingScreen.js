@@ -98,7 +98,9 @@ const SettingScreen = ({navigation}) => {
         </View>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.txtFooter}>{'Copyright © Maxiromanoff'}</Text>
+        <Text style={[styles.txtFooter, {color}]}>
+          {'Copyright © Maxiromanoff'}
+        </Text>
       </View>
     </Layout>
   );

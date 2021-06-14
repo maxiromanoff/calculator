@@ -4,11 +4,12 @@ import {Text, Keyboard, Button} from '../../components';
 import {fontSize} from '../../constants';
 import {scale} from '../../utils/resolutions';
 import {Layout} from '../../views';
-import {ThemeContext} from '../../context';
 import Feather from 'react-native-vector-icons/Feather';
 import routes from '../routes';
+import {ThemeContext} from '../../context';
 import {Calculator} from '../../database';
 import RNBootSplash from 'react-native-bootsplash';
+import formatString from '../../utils/formatString';
 
 const HomeScreen = ({navigation}) => {
   const [show, setShow] = useState('');
@@ -24,7 +25,7 @@ const HomeScreen = ({navigation}) => {
 
   const onChange = value => {
     if (show.substr(show.length - 1) === '=') {
-      setShow(result);
+      setShow(formatString(String(result)));
       setResult('');
     }
     if (value === 'AC') {
@@ -37,10 +38,11 @@ const HomeScreen = ({navigation}) => {
     } else if (value === '=') {
       setShow(prev => `${prev}${value}`);
       /* eslint no-eval: 0 */
-      setResult(eval(show));
+      setResult(String(eval(show)));
+
       Calculator.insert({
         show: show.replace('=', ''),
-        result: eval(show),
+        result: String(eval(show)),
         created_at: new Date(),
       });
     } else {
