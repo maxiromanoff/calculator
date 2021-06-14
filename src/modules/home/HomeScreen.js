@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Text, Keyboard, Button} from '../../components';
 import {fontSize} from '../../constants';
@@ -8,6 +8,7 @@ import {ThemeContext} from '../../context';
 import Feather from 'react-native-vector-icons/Feather';
 import routes from '../routes';
 import {Calculator} from '../../database';
+import RNBootSplash from 'react-native-bootsplash';
 
 const HomeScreen = ({navigation}) => {
   const [show, setShow] = useState('');
@@ -47,6 +48,9 @@ const HomeScreen = ({navigation}) => {
     }
   };
 
+  useEffect(() => {
+    RNBootSplash.hide();
+  }, []);
   return (
     <Layout style={styles.layout} bgColor={backgroundColor}>
       <View style={styles.mainContainer}>
