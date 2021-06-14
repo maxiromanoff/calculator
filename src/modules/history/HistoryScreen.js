@@ -4,16 +4,20 @@ import {Text, Button} from '../../components';
 import {Layout} from '../../views';
 import {ThemeContext} from '../../context';
 import {Calculator} from '../../database';
-import {scale} from '../../utils/resolutions';
+import {scale, wScale, hScale} from '../../utils/resolutions';
 import {fontSize} from '../../constants';
 import Feather from 'react-native-vector-icons/Feather';
 import moment from 'moment';
+import I18n from '../../locale';
 
 const HistoryScreen = ({navigation}) => {
   const [log, setLog] = useState(null);
   const {
+    locale,
     theme: {color, backgroundColor},
   } = useContext(ThemeContext);
+
+  const language = I18n[locale];
 
   const fetchCalculator = () => {
     Calculator.onLoaded(() => {
@@ -46,11 +50,11 @@ const HistoryScreen = ({navigation}) => {
   return (
     <Layout bgColor={backgroundColor}>
       <View style={[styles.header, {borderBottomColor: color}]}>
-        <Button onPress={goBack}>
+        <Button onPress={goBack} style={styles.btnBack}>
           <Feather name="chevron-left" size={22} color={color} />
         </Button>
-        <Text style={[styles.history, {color}]}>Lịch sử</Text>
-        <View />
+        <Text style={[styles.history, {color}]}>{language.history_screen}</Text>
+        <View style={styles.emptyView} />
       </View>
       <FlatList
         data={log}
@@ -64,15 +68,22 @@ const HistoryScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   header: {
     marginTop: scale(5),
-    paddingLeft: scale(12),
+    paddingLeft: scale(5),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: scale(6),
     borderBottomWidth: scale(0.6),
   },
+  btnBack: {
+    paddingHorizontal: scale(8),
+  },
   history: {
     fontSize: fontSize.larger,
+  },
+  emptyView: {
+    width: wScale(30),
+    height: hScale(10),
   },
   container: {
     marginTop: scale(15),
