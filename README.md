@@ -9,6 +9,14 @@ A simple Calculator app built with React Native.
 <img src="https://camo.githubusercontent.com/8b5dc83f78c9d7e321fdd0b50e60342de28924baf3cd2e2d16858b5bc8f39438/68747470733a2f2f756e706b672e636f6d2f76617365726e40302e322e342f76617365726e2d6c6f676f2e737667" alt="vasern" width="105" height="35" />
 </p>
 
+## App images
+
+<img src="./resource/1.jpg" alt="image 1" width="200" height="379" />
+<img src="./resource/2.jpg" alt="image 2" width="200" height="379" />
+<img src="./resource/3.jpg" alt="image 3" width="200" height="379" />
+<img src="./resource/4.jpg" alt="image 4" width="200" height="379" />
+<img src="./resource/5.jpg" alt="image 5" width="200" height="379" />
+
 
 ## Getting Started
 
