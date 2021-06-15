@@ -11,12 +11,13 @@ A simple Calculator app built with React Native.
 
 ## App images
 
+<p align="left">
 <img src="./resource/1.jpg" alt="image 1" width="200" height="379" />
 <img src="./resource/2.jpg" alt="image 2" width="200" height="379" />
 <img src="./resource/3.jpg" alt="image 3" width="200" height="379" />
 <img src="./resource/4.jpg" alt="image 4" width="200" height="379" />
 <img src="./resource/5.jpg" alt="image 5" width="200" height="379" />
-
+</p>
 
 ## Getting Started
 
